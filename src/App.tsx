@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import Layout from './components/layout';
+import LoadingScreen from './components/loading-screen';
 import CreateAccount from './routes/create-account';
 import Home from './routes/home';
 import Login from './routes/login';
@@ -45,10 +47,18 @@ const GlobalStyels = createGlobalStyle`
 `;
 
 function App() {
+    const [isLoading, setLoading] = useState(true);
+    const init = async () => {
+        setLoading(false);
+    };
+    useEffect(() => {
+        init();
+    }, []);
+
     return (
         <>
             <GlobalStyels />
-            <RouterProvider router={router} />
+            {isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}
         </>
     );
 }
